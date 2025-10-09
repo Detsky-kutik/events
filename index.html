@@ -202,7 +202,7 @@
                 this.countdownInterval = setInterval(this.updateCountdown, 1000);
             },
             beforeDestroy() {
-                // Clean up the interval when the component is destroyed
+                // Clean up the interval when the component is destroyed.
                 clearInterval(this.countdownInterval);
             }
         });
