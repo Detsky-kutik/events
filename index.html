@@ -21,7 +21,7 @@
             text-shadow: 0 0 8px rgba(251, 146, 60, 0.7), 0 0 20px rgba(234, 88, 12, 0.5);
         }
         .bg-pattern {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239ca3af' fill-opacity='0.1'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%E3%82%93%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%239ca3af' fill-opacity='0.1'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41zM20 18.6l2.83-2.83 1.41 1.41L21.41 20l2.83 2.83-1.41 1.41L20 21.41l-2.83 2.83-1.41-1.41L18.59 20l-2.83-2.83 1.41-1.41L20 18.59z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
     </style>
 </head>
@@ -62,12 +62,6 @@
                         </div>
                         <div v-else class="text-3xl font-bold text-orange-400">Párty práve začala!</div>
                     </section>
-                    
-                    <div class="mt-10">
-                        <a href="#miesta-konania" class="bg-orange-500 hover:bg-orange-400 text-gray-900 font-bold py-4 px-10 rounded-full text-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-lg shadow-orange-500/30">
-                            Zistiť viac
-                        </a>
-                    </div>
                 </div>
             </div>
         </header>
@@ -91,7 +85,7 @@
                         </div>
                     </div>
                     <div class="text-center">
-                        <a :href="event.calendarLink" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg shadow-purple-500/30 inline-block">
+                        <a :href="event.calendarLink" :download="event.icsFilename" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg shadow-purple-500/30 inline-block">
                             Pridať do kalendára
                         </a>
                     </div>
@@ -112,7 +106,7 @@
         new Vue({
             el: '#app',
             data: {
-                targetDate: new Date("Oct 31, 2025 16:00:00").getTime(),
+                targetDate: new Date("Oct 30, 2025 13:00:00").getTime(),
                 days: '00',
                 hours: '00',
                 minutes: '00',
@@ -121,18 +115,18 @@
                 countdownInterval: null,
                 events: [
                     {
-                        name: 'OC Central',
-                        location: 'OC Central, Bratislava',
-                        date: 'Piatok, 31. Október 2025 | 16:00 - 19:00',
-                        startTime: '2025-10-31T16:00:00',
-                        endTime: '2025-10-31T19:00:00'
+                        name: 'Aupark Bratislava',
+                        location: 'Aupark, Einsteinova 3541/18, 851 01 Petržalka',
+                        date: 'Piatok, 24. Október 2025 | 13:00 - 19:00',
+                        startTime: '2025-10-24T13:00:00',
+                        endTime: '2025-10-24T19:00:00'
                     },
                     {
-                        name: 'Aupark Bratislava',
-                        location: 'Aupark, Bratislava',
-                        date: 'Piatok, 31. Október 2025 | 16:00 - 19:00',
-                        startTime: '2025-10-31T16:00:00',
-                        endTime: '2025-10-31T19:00:00'
+                        name: 'OC Central',
+                        location: 'OC Central, Metodova 6, 821 08 Bratislava',
+                        date: 'Štvrtok, 30. Október 2025 | 13:00 - 19:00',
+                        startTime: '2025-10-30T13:00:00',
+                        endTime: '2025-10-30T19:00:00'
                     }
                 ]
             },
@@ -141,29 +135,47 @@
                     return this.events.map(event => {
                         const title = `Ples Príšer - ${event.name}`;
                         const description = 'Najmodernejšia a najzábavnejšia halloweenska párty pre všetky deti!';
+                        const location = event.location;
                         
-                        // Helper to format a local datetime string into the required Google Calendar UTC format
-                        const formatToGoogleDate = (dateString) => {
+                        // Helper to format a local datetime string into the required iCalendar UTC format
+                        const formatToIcsDate = (dateString) => {
                             const dt = new Date(dateString);
                             // .toISOString() returns UTC, then we remove dashes, colons, and milliseconds
                             return dt.toISOString().replace(/-|:|\.\d{3}/g, '');
                         };
 
-                        const startDate = formatToGoogleDate(event.startTime);
-                        const endDate = formatToGoogleDate(event.endTime);
+                        const startDate = formatToIcsDate(event.startTime);
+                        const endDate = formatToIcsDate(event.endTime);
+                        const now = formatToIcsDate(new Date().toISOString());
                         
-                        // Using URLSearchParams to safely build the URL
-                        const url = new URL('https://www.google.com/calendar/render');
-                        url.searchParams.append('action', 'TEMPLATE');
-                        url.searchParams.append('text', title);
-                        url.searchParams.append('dates', `${startDate}/${endDate}`);
-                        url.searchParams.append('details', description);
-                        url.searchParams.append('location', event.location);
+                        // Using a template literal to build the .ics file content.
+                        // The line endings must be CRLF (\r\n) for the iCalendar standard.
+                        const icsContent = [
+                            'BEGIN:VCALENDAR',
+                            'VERSION:2.0',
+                            'PRODID:-//PlesPriser//SK',
+                            'BEGIN:VEVENT',
+                            `UID:${startDate}-${endDate}@plespriser.sk`, // Simple unique ID
+                            `DTSTAMP:${now}`,
+                            `DTSTART:${startDate}`,
+                            `DTEND:${endDate}`,
+                            `SUMMARY:${title}`,
+                            `DESCRIPTION:${description}`,
+                            `LOCATION:${location}`,
+                            'END:VEVENT',
+                            'END:VCALENDAR'
+                        ].join('\r\n');
 
-                        // Return a new object with all original properties plus the new calendarLink
+                        // Create the data URI for the .ics file
+                        const calendarLink = `data:text/calendar;charset=utf8,${encodeURIComponent(icsContent)}`;
+                        
+                        // Create a filename for the download attribute
+                        const icsFilename = `ples-priser-${event.name.toLowerCase().replace(/\s+/g, '-')}.ics`;
+
                         return {
                             ...event,
-                            calendarLink: url.toString()
+                            calendarLink: calendarLink,
+                            icsFilename: icsFilename
                         };
                     });
                 }
