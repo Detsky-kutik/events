@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ples príšer - Detská Halloweenska Párty</title>
+    <title>Bububu party - Detská Halloweenska Párty</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Vue.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
@@ -33,7 +33,7 @@
             <div class="container mx-auto px-6 py-24 md:py-32 text-center">
                 <div class="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-transparent z-0"></div>
                 <div class="relative z-10">
-                    <h1 class="text-6xl md:text-8xl font-halloween text-orange-400 text-glow tracking-wider">Ples Príšer</h1>
+                    <h1 class="text-6xl md:text-8xl font-halloween text-orange-400 text-glow tracking-wider">Bububu party</h1>
                     <p class="text-xl md:text-2xl mt-4 max-w-2xl mx-auto text-gray-300">Najzábavnejšia halloweenska párty pre všetky deti!</p>
                     
                     <!-- Countdown Timer Section -->
@@ -96,8 +96,6 @@
         <!-- Footer -->
         <footer class="bg-transparent mt-16 md:mt-24 pb-8">
             <div class="container mx-auto text-center text-gray-500">
-                <p>&copy; 2025 Ondrej Kollár. Všetky práva vyhradené.</p>
-                <p>Vytvorené so štipkou čiernej mágie.</p>
             </div>
         </footer>
     </div>
@@ -202,7 +200,7 @@
                 this.countdownInterval = setInterval(this.updateCountdown, 1000);
             },
             beforeDestroy() {
-                // Clean up the interval when the component is destroyed.
+                // Clean up the interval when the component is destroyed
                 clearInterval(this.countdownInterval);
             }
         });
